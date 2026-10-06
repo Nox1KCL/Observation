@@ -56,7 +56,7 @@ func newTracerProvider(exp sdktrace.SpanExporter, r *resource.Resource) *sdktrac
 	)
 }
 
-func NewTelemetry(cfg *logger.LumberConfig) (func(context.Context) error, *Observe, error) {
+func NewTelemetry(cfg *LumberConfig) (func(context.Context) error, *Observe, error) {
 	ctx := context.Background()
 
 	exp, err := newExporter(ctx)
