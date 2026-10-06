@@ -1,11 +1,10 @@
-package telemetry
+package Observation
 
 import (
 	"context"
 	"log/slog"
 	"time"
 
-	"github.com/Nox1KCL/Arbitrage/internal/logger"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
@@ -40,7 +39,7 @@ func newResource() (*resource.Resource, error) {
 		resource.Default(),
 		resource.NewWithAttributes(
 			"",
-			semconv.ServiceName("Noxie-Sort"),
+			semconv.ServiceName("Your-Service"),
 			semconv.ServiceVersion("1.0.0"),
 		),
 	)
@@ -138,13 +137,13 @@ func newLoggerProvider(res *resource.Resource) (*log.LoggerProvider, error) {
 	return provider, nil
 }
 
-func getObserver(cfg *logger.LumberConfig) (*Observe, error) {
+func getObserver(cfg *LumberConfig) (*Observe, error) {
 	levels := map[slog.Level]string{
 		slog.LevelInfo:  "logs/info.log",
 		slog.LevelError: "logs/error.log",
 	}
 
-	handler, err := logger.GetHandler(cfg, levels, "Noxie-Arbitrage-Logger")
+	handler, err := GetHandler(cfg, levels, "Your-Logger")
 	if err != nil {
 		return nil, err
 	}
@@ -153,8 +152,8 @@ func getObserver(cfg *logger.LumberConfig) (*Observe, error) {
 
 	slog.SetDefault(customLogger)
 	observer := &Observe{
-		Meter:  otel.Meter("Noxie-Meter"),
-		Tracer: otel.Tracer("Noxie-Tracer"),
+		Meter:  otel.Meter("Your-Meter"),
+		Tracer: otel.Tracer("Your-Tracer"),
 		Logger: customLogger,
 	}
 
